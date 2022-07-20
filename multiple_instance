@@ -1,0 +1,6 @@
+#!/bin/bash
+N=8
+for i in somethings*; do \
+grep XYZ "$i" > output_"$i" &&
+(( ++count % N == 0)) && wait
+done
