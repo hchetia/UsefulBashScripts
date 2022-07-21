@@ -1,0 +1,19 @@
+#!/bin/bash
+echo "please enter filename"
+read -r filename
+cd /scratch/hchetia/OXBS_TEMP/ && \
+if [ -d "$filename" ]; then
+    echo "$filename exists."
+else
+    echo "$filename does not exist. Will create it."
+    mkdir "$filename"
+fi && \
+cd "$filename" && \
+log=/home/hchetia/OXBS_TEMP/logs
+rsync --remove-source-files --log-file="$log"/"$filename".rsync.newlog.txt -avH --stats \
+./*CpG_context_*deduplicated.txt.gz \
+./*CpG.meth \
+oxBS_*html \
+oxBS_*data \
+oxBS_*bw /mnt/heintz-bambi2/oxBS_outputs/"$filename" && \
+echo "moved data to bambi2/oxBS_outputs/$filename" && cd ..;
